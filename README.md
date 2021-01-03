@@ -2,8 +2,16 @@
 
 # PSQL
 
-create table comment (
+CREATE TABLE post(
+  post_id int not null,
+  title text not null,
+  likes int not null,
+  views bigint not null,
+  PRIMARY KEY(post_id)
+);
+CREATE TABLE comment(
   comment_id serial not null,
+  post_id int not null,
   alias varchar(30) not null,
   content varchar(3000) not null,
   avatar text,
@@ -12,20 +20,13 @@ create table comment (
   admin boolean DEFAULT false not null,
   created timestamp with time zone DEFAULT CURRENT_TIMESTAMP not null,
   updated timestamp with time zone DEFAULT CURRENT_TIMESTAMP not null,
-  PRIMARY KEY(comment_id)
-    CONSTRAINT fk_post_id
-      FOREIGN KEY (post_id) 
-        REFERENCES post(post_id)
+  PRIMARY KEY(comment_id),
+  CONSTRAINT fk_post
+    FOREIGN KEY(post_id)
+      REFERENCES post(post_id)
 );
-create table post (
-  post_id int not null,
-  title text not null,
-  likes int not null,
-  views bigint not null,
-  PRIMARY KEY(post_id)
-);
-create table admin (
-  email text not null
+CREATE TABLE admin(
+  email text not null,
   password text not null,
   PRIMARY KEY(email)
 );
@@ -36,7 +37,9 @@ drop table admin CASCADE;
 
 UPDATE admin SET password='' WHERE email='';
 
-INSERT INTO admin(password) VALUES ('INSERT_PASSWORD_HERE');
+INSERT INTO comment(post_id, alias, content) VALUES (12, 'ms. puff', 'no they are nice and smooth');
+
+INSERT INTO admin(email, password) VALUES ('EMAIL_HERE', 'PASSWORD_HERE');
 INSERT INTO post(post_id, title, likes, views) VALUES (1, 'Photography Website', 0, 0);
 INSERT INTO post(post_id, title, likes, views) VALUES (2, 'Django Personal Blog', 0, 0);
 INSERT INTO post(post_id, title, likes, views) VALUES (3, 'Django Social Media', 0, 0);

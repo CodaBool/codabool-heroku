@@ -8,7 +8,7 @@ export default function Navigation() {
   const router = useRouter()
   
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg" className="w-100">
       <Navbar.Brand onClick={() => router.push('/blog')}>CodaBool</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
