@@ -2,16 +2,15 @@ import { useEffect } from 'react'
 import { format } from 'timeago.js'
 import mdCSS from '../../styles/markdown.module.css'
 import Prism from '../../lib/prism'
-import { getPostData } from '../../lib/helper'
 import PostNav from '../../components/PostNav'
 
 // serverside
-import remark, { data } from 'remark'
+import remark from 'remark'
 import html from 'remark-html'
 import { getPost, getSlugs } from '../../lib/api'
 import Comments from '../../components/Comments'
 
-export default function BlogSlug({ post, total, data }) {
+export default function BlogSlug({ post, total }) {
   useEffect(() => Prism.highlightAll(), [])
   return (
     <>
@@ -39,7 +38,7 @@ export default function BlogSlug({ post, total, data }) {
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
       <PostNav total={total} current={post.slug} />
-      <Comments commentArr={data.comments}/>
+      <Comments post_id={post.slug}/>
     </>
   )
 }
@@ -49,14 +48,12 @@ export async function getStaticProps({ params }) {
   const result = await remark().use(html).process(post.content || '')
   const content = result.toString()
   const total = getSlugs().length
-  const data = await getPostData(Number(params.slug))
   return {
     props: {
       post: {
         ...post,
         content,
       },
-      data,
       total
     },
   }

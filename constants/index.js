@@ -12,6 +12,7 @@
 //   return JSON.parse(jsonPayload)
 // }
 
+
 export function dateParsed(obj) {
   for (let [key, value] of Object.entries(obj)) {
     if (value !== null) {
@@ -40,3 +41,4 @@ export function debounce(func, wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+
