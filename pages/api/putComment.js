@@ -7,7 +7,7 @@ export default async function (req, res) {
     const cookies = parseCookies({ req })
     if (cookies.admin === 'true') {
       result = await query('UPDATE comment SET status=$1 WHERE comment_id=$2 RETURNING *',
-        [req.query.status, req.query.comment_id]
+        [req.body.status, req.body.comment_id]
       )
       if (result.err) {
         res.status(400).send('Server error doing DB UPDATE')

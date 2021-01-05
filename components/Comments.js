@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Accordion from 'react-bootstrap/Accordion'
 import { format } from 'timeago.js'
-import { debounce } from '../constants'
+import { debounce, genHexFromString } from '../constants'
 import Toast from './Toast'
 import { parseCookies, setCookie } from 'nookies'
 import { Check2, X } from 'react-bootstrap-icons'
@@ -44,7 +44,7 @@ export default function Comments({ post_id }) {
       })
   }
   function putStatus(comment_id, status) {
-    axios.get('/api/putComment', {params: {comment_id, status}})
+    axios.put('/api/putComment', {comment_id, status})
       .then(res => {
         console.log(res.data)
       })
@@ -116,10 +116,6 @@ export default function Comments({ post_id }) {
 
   console.log('comments', comments)
 
-  function getColor(name) {
-    return Math.floor(Math.random()*16777215).toString(16);
-  }
-
   return (
     <>
       <Accordion className="" defaultActiveKey="0">
@@ -136,7 +132,10 @@ export default function Comments({ post_id }) {
                       <Row className="my-4">
                         <Col md={1}>
                           <div style={{width: '60px'}}>
-                            <img src={`https://ui-avatars.com/api/?length=1&background=${getColor(comment.alias)}&name=${comment.alias}`} className="rounded-circle" /> 
+                            <img 
+                              src={`https://ui-avatars.com/api/?length=1&background=${genHexFromString(comment.alias)}&name=${comment.alias}`} 
+                              className="rounded-circle"
+                            /> 
                           </div>
                         </Col>
                         <Col md={10} className="ml-1">
@@ -144,18 +143,16 @@ export default function Comments({ post_id }) {
                             {comment.admin && <Card.Header>CodaBool</Card.Header>}
                             <Card.Body>
                               {!comment.admin && <Card.Title>{comment.alias}</Card.Title>}
-                              <Card.Text>
-                                {controls && 
-                                  <p className={`
-                                    ${comment.status == 'review' && 'text-warning'} 
-                                    ${comment.status == 'approved' && 'text-info'}
-                                    ${comment.status == 'archived' && 'text-danger'}
-                                  `}>
-                                    {comment.status}
-                                  </p>
-                                }
-                                {comment.content}
-                              </Card.Text>
+                              {controls && 
+                                <p className={`
+                                  ${comment.status == 'review' && 'text-warning'} 
+                                  ${comment.status == 'approved' && 'text-info'}
+                                  ${comment.status == 'archived' && 'text-danger'}
+                                `}>
+                                  {comment.status}
+                                </p>
+                              }
+                              {comment.content}
                             </Card.Body>
                             <Card.Footer className="text-muted">
                               Created: {format(comment.created)} | Updated: {format(comment.updated)}

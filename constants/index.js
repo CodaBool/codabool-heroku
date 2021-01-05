@@ -12,7 +12,6 @@
 //   return JSON.parse(jsonPayload)
 // }
 
-
 export function dateParsed(obj) {
   for (let [key, value] of Object.entries(obj)) {
     if (value !== null) {
@@ -42,3 +41,12 @@ export function debounce(func, wait, immediate) {
 	};
 };
 
+export function genHexFromString(seed) {
+  let color = ''
+  color = Math.floor((Math.abs(Math.sin(seed.charCodeAt(0)) * 16777215)) % 16777215);
+  color = color.toString(16);
+  while (color.length < 6) {
+    color = '0' + color;
+  }
+  return color;
+}

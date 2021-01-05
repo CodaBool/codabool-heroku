@@ -12,9 +12,10 @@ let count = 0
 export default function About() {
   const [show, setShow] = useState(false);
   const password = useRef(null)
+
   function adminCheck() {
     count++
-    if (true) {
+    if (count > 5) {
       setShow(true)
       setTimeout(() => {
         if (password) {

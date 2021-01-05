@@ -9,9 +9,16 @@ import remark from 'remark'
 import html from 'remark-html'
 import { getPost, getSlugs } from '../../lib/api'
 import Comments from '../../components/Comments'
+import axios from 'axios'
 
 export default function BlogSlug({ post, total }) {
-  useEffect(() => Prism.highlightAll(), [])
+  useEffect(() => {
+    Prism.highlightAll()
+    axios.put('/api/putPost', {post_id: post.slug})
+      .then(res => console.log('updated view to', res.data))
+      .catch(err => console.log(err.response.data))
+  }, [])
+
   return (
     <>
       <h1 className="display-3 mt-3">{post.data.title}</h1>
@@ -65,6 +72,6 @@ export async function getStaticPaths() {
   const paths = posts.map(page => ({
     params: {slug: page.slug},
   }))
-  // console.log('path', paths)
+  console.log('path', paths)
   return { paths, fallback: false } // false means unspecified routes result in 404
 }
