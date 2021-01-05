@@ -25,6 +25,8 @@ export default function Comments({ post_id }) {
   const [comments, setComments] = useState([])
   const [inReview, setInReview] = useState(null)
 
+  useEffect(() => getComments(), [post_id])
+
   function getComments() {
     axios.get('/api/getComments', {params: post_id})
       .then(res => {
@@ -52,8 +54,6 @@ export default function Comments({ post_id }) {
         console.log(err.response.data)
       })
   }
-
-  useEffect(() => getComments(), [])
 
   function addComment() {
     let valid = true

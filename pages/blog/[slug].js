@@ -15,7 +15,7 @@ export default function BlogSlug({ post, total }) {
   useEffect(() => {
     Prism.highlightAll()
     axios.put('/api/putPost', {post_id: post.slug})
-      .then(res => console.log('updated view to', res.data))
+      .then(res => console.log('updated post view count to', res.data))
       .catch(err => console.log(err.response.data))
   }, [])
 
@@ -72,6 +72,6 @@ export async function getStaticPaths() {
   const paths = posts.map(page => ({
     params: {slug: page.slug},
   }))
-  console.log('path', paths)
+  // console.log('path', paths)
   return { paths, fallback: false } // false means unspecified routes result in 404
 }
