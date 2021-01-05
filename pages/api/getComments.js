@@ -6,12 +6,10 @@ export default async function (req, res) {
     let result
     const cookies = parseCookies({ req })
     if (cookies.admin === 'true') {
-      console.log('fetching as admin')
       result = await query('SELECT * FROM comment WHERE post_id=$1',
         [req.query[0]]
       )
     } else {
-      console.log('fetching as normie')
       result = await query('SELECT * FROM comment WHERE post_id=$1 AND status=\'approved\'',
         [req.query[0]]
       )

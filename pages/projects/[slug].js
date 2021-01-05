@@ -37,6 +37,6 @@ export async function getStaticPaths() {
   paths = arr.map(page => ({
     params: { slug: page },
   }))
-  console.log('projects/[slug] paths', paths)
+  // console.log('projects/[slug] paths', paths)
   return { paths, fallback: false } // false means unspecified routes result in 404
 }

@@ -78,13 +78,11 @@ export default function Comments({ post_id }) {
           setTimeout(() => setLimit(false), 15000)
         } else {
           setCookie(null, 'comment-limit', 'limit', { maxAge: 5 * 60 }) // 5 * 60 = 5 minutes
-          console.log('sending content')
           axios.post('/api/postComment', 
             { post_id, alias: aliasRef.current.value, content: contentRef.current.value }
           )
             .then(res => {
               setSuccessToast(true)
-              console.log('successful post return', res.data)
               getComments()
             })
             .catch(err => {
@@ -114,7 +112,7 @@ export default function Comments({ post_id }) {
     }, 1000), [] // will be created only once initially
   )
 
-  console.log('comments', comments)
+  // console.log('comments', comments)
 
   return (
     <>
