@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Fade from 'react-reveal/Fade'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import axios from 'axios'
 
 let count = 0
@@ -12,6 +12,13 @@ let count = 0
 export default function About() {
   const [show, setShow] = useState(false);
   const password = useRef(null)
+
+  useEffect(() => {
+    // testing
+    // axios.put('/api/getData')
+    //   .then(res => console.log(res.data))
+    //   .catch(err => console.log(err.response.data))
+  }, [])
 
   function adminCheck() {
     count++
